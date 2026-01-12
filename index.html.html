@@ -1,0 +1,785 @@
+
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webdesign Bamberg | Premium Digital Agentur für High-End Webseiten</title>
+    <meta name="description" content="Professionelles Webdesign Bamberg. Wir erstellen hochkonvertierende Webseiten, SEO-optimiert und preisgekrönt. Jetzt kostenloses Angebot anfordern!">
+    
+    <!-- Scripts & Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --primary: #f60404;
+            --secondary: #f9f106;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        .aurora-bg { 
+            background: radial-gradient(at 50% 0%, rgba(246, 4, 4, 0.15) 0%, transparent 50%), 
+                        radial-gradient(at 100% 0%, rgba(249, 241, 6, 0.1) 0%, transparent 50%); 
+            background-color: #050505;
+        }
+
+        .skew-section { transform: skewY(-6deg); }
+        .skew-inner { transform: skewY(6deg); }
+
+        .glass-pro { 
+            background: var(--glass); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid var(--glass-border); 
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+            border-radius: 12px;
+        }
+
+        .flip-card { perspective: 1000px; height: 400px; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; }
+        .flip-card-back { transform: rotateY(180deg); background: linear-gradient(135deg, var(--primary), #990000); }
+
+        .marquee-track { display: flex; gap: 4rem; animation: marquee 30s linear infinite; width: max-content; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .text-gradient { background: linear-gradient(to right, #fff, var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(246, 4, 4, 0.4);
+            cursor: pointer;
+        }
+        .cta-button:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(246, 4, 4, 0.6); }
+
+        .floating-notif { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* Custom Cursor */
+        #cursor-dot { width: 8px; height: 8px; background: var(--secondary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; }
+        #cursor-outline { width: 40px; height: 40px; border: 2px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: transform 0.1s; }
+
+        .tab-active { border-bottom: 3px solid var(--primary); color: var(--primary); }
+    </style>
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "DigitalAgency",
+      "name": "Webdesign Bamberg Premium",
+      "image": "https://images.unsplash.com/photo-1551434678-e076c223a692",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bamberg",
+        "addressCountry": "DE"
+      },
+      "url": "https://webdesign-bamberg.de",
+      "telephone": "+4915168495881",
+      "priceRange": "€€",
+      "servesCuisine": "Web Design, SEO, Digital Marketing"
+    }
+    </script>
+</head>
+<body class="aurora-bg text-white font-sans antialiased overflow-x-hidden">
+
+    <!-- Custom Cursor -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="fixed top-0 left-0 h-1 bg-gradient-to-right from-red-600 to-yellow-400 z-[100]" id="scroll-progress"></div>
+
+    <!-- Notification Bar -->
+    <div class="bg-gradient-to-r from-[#f60404] to-[#f9f106] text-black text-center py-2 text-sm font-bold animate-pulse">
+        🚀 Limitierte Aktion: 20% Rabatt auf alle Webdesign Bamberg Projekte im aktuellen Monat!
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass-pro mx-4 mt-4 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center font-bold text-2xl">B</div>
+            <span class="text-xl font-bold tracking-tighter">WEBDesign<span class="text-[#f9f106]">Bamberg</span></span>
+        </div>
+        <div class="hidden md:flex gap-8 font-medium">
+            <a href="#services" class="hover:text-[#f9f106] transition">Services</a>
+            <a href="#portfolio" class="hover:text-[#f9f106] transition">Portfolio</a>
+            <a href="#process" class="hover:text-[#f9f106] transition">Prozess</a>
+            <a href="#pricing" class="hover:text-[#f9f106] transition">Preise</a>
+        </div>
+        <button class="cta-button btn-popup-trigger">Projekt Starten</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center px-4 pt-20">
+        <div class="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div class="reveal-on-scroll">
+                <h1 class="text-6xl md:text-8xl font-black mb-6 leading-tight">
+                    Premium <span class="text-gradient">Webdesign</span> <br>Bamberg.
+                </h1>
+                <p class="text-xl text-gray-400 mb-8 max-w-lg">
+                    Wir verwandeln Besucher in loyale Kunden. Award-Gewinnendes Design trifft auf psychologische Verkaufsoptimierung.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button class="cta-button px-8 py-4 text-lg btn-popup-trigger">Gratis Erstgespräch</button>
+                    <a href="#portfolio" class="px-8 py-4 border border-white/20 rounded-xl hover:bg-white/10 transition flex items-center gap-2">
+                        Portfolio ansehen <i data-lucide="arrow-right"></i>
+                    </a>
+                </div>
+                <div class="mt-12 flex items-center gap-4 text-sm text-gray-400">
+                    <div class="flex -space-x-3">
+                        <img src="https://placehold.co/40x40/333/fff?text=U1" class="w-10 h-10 rounded-full border-2 border-black">
+                        <img src="https://placehold.co/40x40/444/fff?text=U2" class="w-10 h-10 rounded-full border-2 border-black">
+                        <img src="https://placehold.co/40x40/555/fff?text=U3" class="w-10 h-10 rounded-full border-2 border-black">
+                    </div>
+                    <span>Bewertet mit 5.0 Sternen von über 150+ Bamberger Unternehmen</span>
+                </div>
+            </div>
+            <div class="relative reveal-on-scroll">
+                <div class="tilt-card glass-pro p-4 relative z-10">
+                    <img src="http://legendai.dev/wp-content/uploads/2026/01/01-home-page-portfolio-screenshot-design-1.jpg" class="rounded-lg shadow-2xl" alt="Webdesign Beispiel">
+                </div>
+                <div class="absolute -top-10 -right-10 w-64 h-64 bg-red-600/20 blur-[100px] -z-10"></div>
+                <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-yellow-400/20 blur-[100px] -z-10"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted Logos -->
+    <section class="py-12 border-y border-white/5 bg-black/50 overflow-hidden">
+        <div class="marquee-track">
+            <img src="http://legendai.dev/wp-content/uploads/2025/09/top-clients-logos.png" class="h-12 opacity-50 hover:opacity-100 transition grayscale hover:grayscale-0">
+            <img src="http://legendai.dev/wp-content/uploads/2025/09/top-clients-logos-1.png" class="h-12 opacity-50 hover:opacity-100 transition grayscale hover:grayscale-0">
+            <img src="http://legendai.dev/wp-content/uploads/2025/09/top-clients-logos-2.png" class="h-12 opacity-50 hover:opacity-100 transition grayscale hover:grayscale-0">
+            <img src="http://legendai.dev/wp-content/uploads/2025/09/top-clients-logos-4.png" class="h-12 opacity-50 hover:opacity-100 transition grayscale hover:grayscale-0">
+            <!-- Repeat for seamless -->
+            <img src="http://legendai.dev/wp-content/uploads/2025/09/top-clients-logos.png" class="h-12 opacity-50 hover:opacity-100 transition grayscale hover:grayscale-0">
+            <img src="http://legendai.dev/wp-content/uploads/2025/09/top-clients-logos-1.png" class="h-12 opacity-50 hover:opacity-100 transition grayscale hover:grayscale-0">
+        </div>
+    </section>
+
+    <!-- Why Us Section (Skewed) -->
+    <section class="py-24 skew-section bg-zinc-950 overflow-hidden">
+        <div class="container mx-auto px-4 skew-inner">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-bold mb-4">Warum uns wählen?</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Webdesign Bamberg ist mehr als nur Code. Wir bauen digitale Verkaufskanäle.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-pro p-8 holographic-card">
+                    <i data-lucide="zap" class="text-[#f9f106] w-12 h-12 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">Ultra-Schnell</h3>
+                    <p class="text-gray-400">Google PageSpeed Scores von 95+. Wir optimieren für maximale Performance.</p>
+                </div>
+                <div class="glass-pro p-8 holographic-card">
+                    <i data-lucide="target" class="text-red-500 w-12 h-12 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">SEO Dominanz</h3>
+                    <p class="text-gray-400">Wir platzieren Sie in Bamberg ganz oben bei Google durch gezielte Strategien.</p>
+                </div>
+                <div class="glass-pro p-8 holographic-card">
+                    <i data-lucide="award" class="text-yellow-400 w-12 h-12 mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">Award Design</h3>
+                    <p class="text-gray-400">Exklusives Premium-Design, das Ihre Konkurrenz in den Schatten stellt.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section (Flippable Cards) -->
+    <section id="services" class="py-24 container mx-auto px-4">
+        <h2 class="text-5xl font-bold mb-12 text-center">Unsere <span class="text-gradient">Leistungen</span></h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front glass-pro p-8 flex flex-col justify-center items-center">
+                        <img src="http://legendai.dev/wp-content/uploads/2025/10/webdesign-coding-logo-white-background.png" class="w-24 mb-6">
+                        <h3 class="text-2xl font-bold">Custom Webdesign</h3>
+                    </div>
+                    <div class="flip-card-back p-8 flex flex-col justify-center text-center">
+                        <p class="mb-6">Einzigartige Designs, die exakt auf Ihre Marke zugeschnitten sind. Kein 08/15 Template.</p>
+                        <button class="bg-white text-red-600 font-bold py-2 rounded btn-popup-trigger">Details</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front glass-pro p-8 flex flex-col justify-center items-center">
+                        <img src="http://legendai.dev/wp-content/uploads/2025/10/webdesign-elementor-logo-white-background.png" class="w-24 mb-6">
+                        <h3 class="text-2xl font-bold">E-Commerce</h3>
+                    </div>
+                    <div class="flip-card-back p-8 flex flex-col justify-center text-center">
+                        <p class="mb-6">Leistungsstarke Online-Shops, die verkaufen. Optimiert für Conversion & Nutzererfahrung.</p>
+                        <button class="bg-white text-red-600 font-bold py-2 rounded btn-popup-trigger">Details</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front glass-pro p-8 flex flex-col justify-center items-center">
+                        <img src="http://legendai.dev/wp-content/uploads/2025/10/website-coding-logo-white-background-3.png" class="w-24 mb-6">
+                        <h3 class="text-2xl font-bold">SEO & Marketing</h3>
+                    </div>
+                    <div class="flip-card-back p-8 flex flex-col justify-center text-center">
+                        <p class="mb-6">Gefunden werden, wo Kunden suchen. Lokales SEO für Bamberg und Umgebung.</p>
+                        <button class="bg-white text-red-600 font-bold py-2 rounded btn-popup-trigger">Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How We Work (Steps) -->
+    <section id="process" class="py-24 bg-zinc-900">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-16 text-center">In 6 Schritten zum <span class="text-primary">Erfolg</span></h2>
+            <div class="grid md:grid-cols-6 gap-4">
+                <div class="text-center reveal-on-scroll">
+                    <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">1</div>
+                    <h4 class="font-bold">Strategie</h4>
+                </div>
+                <div class="text-center reveal-on-scroll">
+                    <div class="w-16 h-16 bg-zinc-800 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">2</div>
+                    <h4 class="font-bold">Konzept</h4>
+                </div>
+                <div class="text-center reveal-on-scroll">
+                    <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">3</div>
+                    <h4 class="font-bold">Design</h4>
+                </div>
+                <div class="text-center reveal-on-scroll">
+                    <div class="w-16 h-16 bg-zinc-800 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">4</div>
+                    <h4 class="font-bold">Entwicklung</h4>
+                </div>
+                <div class="text-center reveal-on-scroll">
+                    <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">5</div>
+                    <h4 class="font-bold">Testing</h4>
+                </div>
+                <div class="text-center reveal-on-scroll">
+                    <div class="w-16 h-16 bg-zinc-800 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">6</div>
+                    <h4 class="font-bold">Launch</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Estimator Widget -->
+    <section class="py-24 px-4">
+        <div class="container mx-auto glass-pro p-10 max-w-4xl">
+            <h2 class="text-3xl font-bold mb-8 text-center">Projekt-Konfigurator</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="space-y-6">
+                    <div>
+                        <label class="block mb-2 font-bold">Art der Webseite</label>
+                        <select id="est-type" class="w-full bg-black/50 border border-white/10 p-3 rounded-lg">
+                            <option value="1500">Business Webseite</option>
+                            <option value="3500">E-Commerce Shop</option>
+                            <option value="5000">Individuelle Web-App</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 font-bold">Zusatzfunktionen</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2"><input type="checkbox" class="est-addon" value="500"> SEO Paket (+500€)</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" class="est-addon" value="300"> Copywriting (+300€)</label>
+                            <label class="flex items-center gap-2"><input type="checkbox" class="est-addon" value="800"> Logo Design (+800€)</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-red-600/10 border border-red-600/30 rounded-xl p-8 flex flex-col justify-center items-center">
+                    <span class="text-lg text-gray-400">Geschätztes Budget ab</span>
+                    <div class="text-5xl font-black text-white my-4"><span id="total-est">1500</span>€</div>
+                    <button class="cta-button w-full btn-popup-trigger">Angebot anfordern</button>
+                    <p class="text-xs text-gray-500 mt-4 text-center">*Finale Preise basieren auf individuellem Briefing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section id="portfolio" class="py-24 container mx-auto px-4">
+        <h2 class="text-5xl font-black mb-16 text-center">Unsere <span class="text-gradient">Case Studies</span></h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="tilt-card relative group overflow-hidden rounded-xl">
+                <img src="http://legendai.dev/wp-content/uploads/2026/01/01-home-page-portfolio-screenshot-design-10.jpg" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition p-8 flex flex-col justify-end">
+                    <h4 class="text-xl font-bold">Fashion Brand X</h4>
+                    <p class="text-sm text-gray-400">+250% Sales Anstieg</p>
+                </div>
+            </div>
+            <div class="tilt-card relative group overflow-hidden rounded-xl">
+                <img src="http://legendai.dev/wp-content/uploads/2026/01/01-home-page-portfolio-screenshot-design-9.jpg" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition p-8 flex flex-col justify-end">
+                    <h4 class="text-xl font-bold">Gastro Bamberg</h4>
+                    <p class="text-sm text-gray-400">Buchungssystem Integration</p>
+                </div>
+            </div>
+            <div class="tilt-card relative group overflow-hidden rounded-xl">
+                <img src="http://legendai.dev/wp-content/uploads/2026/01/01-home-page-portfolio-screenshot-design-8.jpg" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition p-8 flex flex-col justify-end">
+                    <h4 class="text-xl font-bold">Kanzlei Dr. M.</h4>
+                    <p class="text-sm text-gray-400">Lokales SEO Dominanz</p>
+                </div>
+            </div>
+            <!-- Additional cases -->
+            <div class="tilt-card relative group overflow-hidden rounded-xl">
+                <img src="http://legendai.dev/wp-content/uploads/2026/01/01-home-page-portfolio-screenshot-design-7.jpg" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition p-8 flex flex-col justify-end">
+                    <h4 class="text-xl font-bold">Tech SaaS Startup</h4>
+                    <p class="text-sm text-gray-400">Scale-Ready Platform</p>
+                </div>
+            </div>
+            <div class="tilt-card relative group overflow-hidden rounded-xl">
+                <img src="http://legendai.dev/wp-content/uploads/2026/01/01-home-page-portfolio-screenshot-design-6.jpg" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition p-8 flex flex-col justify-end">
+                    <h4 class="text-xl font-bold">Immobilien Bamberg</h4>
+                    <p class="text-sm text-gray-400">High-End Lead Gen</p>
+                </div>
+            </div>
+            <div class="tilt-card relative group overflow-hidden rounded-xl">
+                <img src="http://legendai.dev/wp-content/uploads/2026/01/01-home-page-portfolio-screenshot-design-5.jpg" class="w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition p-8 flex flex-col justify-end">
+                    <h4 class="text-xl font-bold">Creative Studio</h4>
+                    <p class="text-sm text-gray-400">Minimalist Art Design</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 bg-zinc-950">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16">Transparente <span class="text-gradient">Preise</span></h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-pro p-8 border-t-4 border-gray-600">
+                    <h3 class="text-xl font-bold mb-4">Starter</h3>
+                    <div class="text-4xl font-black mb-6">250€ <span class="text-sm text-gray-400">/Basis</span></div>
+                    <ul class="space-y-4 text-gray-400 mb-8">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="text-green-500"></i> One-Pager Webseite</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="text-green-500"></i> Responsive Design</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="text-green-500"></i> Kontaktformular</li>
+                    </ul>
+                    <button class="w-full py-3 border border-white/20 rounded-lg hover:bg-white/10 btn-popup-trigger">Wählen</button>
+                </div>
+                <div class="glass-pro p-8 border-t-4 border-red-600 scale-105 shadow-2xl relative">
+                    <div class="absolute -top-4 right-4 bg-red-600 text-xs px-3 py-1 rounded-full uppercase font-bold">Beliebtest</div>
+                    <h3 class="text-xl font-bold mb-4">Business</h3>
+                    <div class="text-4xl font-black mb-6">1.490€ <span class="text-sm text-gray-400">/Paket</span></div>
+                    <ul class="space-y-4 text-gray-400 mb-8">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="text-green-500"></i> Bis zu 5 Unterseiten</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="text-green-500"></i> SEO Optimierung Basic</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="text-green-500"></i> Premium Animationen</li>
+                    </ul>
+                    <button class="w-full py-3 bg-red-600 rounded-lg hover:bg-red-700 font-bold btn-popup-trigger">Wählen</button>
+                </div>
+                <div class="glass-pro p-8 border-t-4 border-yellow-400">
+                    <h3 class="text-xl font-bold mb-4">Enterprise</h3>
+                    <div class="text-4xl font-black mb-6">Ab 3.500€</div>
+                    <ul class="space-y-4 text-gray-400 mb-8">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="text-green-500"></i> E-Commerce / Custom App</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="text-green-500"></i> Full SEO Content Plan</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="text-green-500"></i> 24/7 Priority Support</li>
+                    </ul>
+                    <button class="w-full py-3 border border-white/20 rounded-lg hover:bg-white/10 btn-popup-trigger">Wählen</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 container mx-auto px-4 overflow-hidden">
+        <h2 class="text-4xl font-bold text-center mb-16">Was Kunden in Bamberg sagen</h2>
+        <div class="flex gap-8 overflow-x-auto pb-8 snap-x no-scrollbar">
+            <div class="min-w-[400px] glass-pro p-8 snap-center holographic-card">
+                <div class="flex gap-1 text-yellow-400 mb-4">
+                    <i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i>
+                </div>
+                <p class="text-lg italic mb-6">"Webdesign Bamberg hat unsere Erwartungen übertroffen. Innerhalb von 2 Monaten haben wir unsere Leads verdoppelt."</p>
+                <div class="flex items-center gap-4">
+                    <img src="http://legendai.dev/wp-content/uploads/2025/09/testimonial-image.png" class="w-12 h-12 rounded-full">
+                    <div>
+                        <div class="font-bold">Markus Weber</div>
+                        <div class="text-sm text-gray-400">Inhaber GastroX Bamberg</div>
+                    </div>
+                </div>
+            </div>
+            <!-- More Testimonials -->
+             <div class="min-w-[400px] glass-pro p-8 snap-center holographic-card">
+                <div class="flex gap-1 text-yellow-400 mb-4">
+                    <i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i>
+                </div>
+                <p class="text-lg italic mb-6">"Professionell, kreativ und extrem schnell in der Umsetzung. Die beste Entscheidung für unser Rebranding."</p>
+                <div class="flex items-center gap-4">
+                    <img src="http://legendai.dev/wp-content/uploads/2025/09/testimonial-image1.png" class="w-12 h-12 rounded-full">
+                    <div>
+                        <div class="font-bold">Sarah Schmitt</div>
+                        <div class="text-sm text-gray-400">Marketing Lead Creative-Studio</div>
+                    </div>
+                </div>
+            </div>
+            <div class="min-w-[400px] glass-pro p-8 snap-center holographic-card">
+                <div class="flex gap-1 text-yellow-400 mb-4">
+                    <i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i><i data-lucide="star" class="fill-current"></i>
+                </div>
+                <p class="text-lg italic mb-6">"Dank der SEO-Optimierung stehen wir jetzt bei allen relevanten Suchbegriffen auf Platz 1 in Bamberg."</p>
+                <div class="flex items-center gap-4">
+                    <img src="http://legendai.dev/wp-content/uploads/2025/09/testimonial-image2.jpg" class="w-12 h-12 rounded-full">
+                    <div>
+                        <div class="font-bold">Dr. Andreas Berg</div>
+                        <div class="text-sm text-gray-400">Zahnarzt Bamberg-Nord</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-24 max-w-4xl mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-16">Häufig gestellte Fragen (FAQ)</h2>
+        <div class="space-y-4">
+            <!-- 10 Accordion Items -->
+            <div class="glass-pro border-none">
+                <button class="faq-toggle w-full px-6 py-4 flex justify-between items-center font-bold text-left">
+                    Wie lange dauert die Erstellung einer Webseite? <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    In der Regel benötigen wir für eine Standard-Business-Webseite 4 bis 6 Wochen von der Planung bis zum Go-Live.
+                </div>
+            </div>
+            <div class="glass-pro border-none">
+                <button class="faq-toggle w-full px-6 py-4 flex justify-between items-center font-bold text-left">
+                    Was kostet Webdesign in Bamberg? <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    Unsere Projekte starten bei 250€ für einfache Landingpages. Komplexe Firmenwebseiten liegen meist zwischen 1.500€ und 5.000€.
+                </div>
+            </div>
+            <div class="glass-pro border-none">
+                <button class="faq-toggle w-full px-6 py-4 flex justify-between items-center font-bold text-left">
+                    Ist SEO inbegriffen? <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    Ja, wir bauen alle Webseiten nach modernsten SEO-Standards auf. Erweitertes Keyword-Marketing kann hinzugebucht werden.
+                </div>
+            </div>
+            <div class="glass-pro border-none">
+                <button class="faq-toggle w-full px-6 py-4 flex justify-between items-center font-bold text-left">
+                    Kann ich Inhalte später selbst ändern? <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    Natürlich! Wir nutzen CMS-Systeme wie WordPress oder Webflow, damit Sie Texte und Bilder kinderleicht selbst pflegen können.
+                </div>
+            </div>
+            <!-- Repeat logic for 10 -->
+            <div class="glass-pro border-none">
+                <button class="faq-toggle w-full px-6 py-4 flex justify-between items-center font-bold text-left">
+                    Ist die Seite für mobile Geräte optimiert? <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    Absolut. "Mobile-First" ist unser Standard-Ansatz für jedes Webdesign-Projekt in Bamberg.
+                </div>
+            </div>
+            <div class="glass-pro border-none">
+                <button class="faq-toggle w-full px-6 py-4 flex justify-between items-center font-bold text-left">
+                    Helfen Sie auch bei Hostings & Domains? <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    Ja, wir übernehmen die komplette technische Einrichtung für Sie.
+                </div>
+            </div>
+            <div class="glass-pro border-none">
+                <button class="faq-toggle w-full px-6 py-4 flex justify-between items-center font-bold text-left">
+                    Bieten Sie Wartungsverträge an? <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    Ja, wir kümmern uns monatlich um Updates, Backups und Sicherheit.
+                </div>
+            </div>
+            <div class="glass-pro border-none">
+                <button class="faq-toggle w-full px-6 py-4 flex justify-between items-center font-bold text-left">
+                    Bieten Sie auch E-Commerce Lösungen an? <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    Ja, wir sind Experten für Shopify und WooCommerce Lösungen.
+                </div>
+            </div>
+            <div class="glass-pro border-none">
+                <button class="faq-toggle w-full px-6 py-4 flex justify-between items-center font-bold text-left">
+                    Kann meine bestehende Seite überarbeitet werden? <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    Ja, wir führen auch professionelle Relaunches für veraltete Webseiten durch.
+                </div>
+            </div>
+            <div class="glass-pro border-none">
+                <button class="faq-toggle w-full px-6 py-4 flex justify-between items-center font-bold text-left">
+                    Was unterscheidet Sie von anderen Agenturen? <i data-lucide="chevron-down"></i>
+                </button>
+                <div class="faq-content hidden px-6 pb-4 text-gray-400">
+                    Unser Fokus liegt auf messbaren Resultaten (Conversions) statt nur auf "schönem" Design.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map & Contact -->
+    <section class="py-24 container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12 glass-pro p-10 overflow-hidden">
+            <div>
+                <h2 class="text-4xl font-bold mb-6">Bereit für Ihr Projekt in <span class="text-primary">Bamberg</span>?</h2>
+                <p class="text-gray-400 mb-8">Schreiben Sie uns oder rufen Sie direkt an. Wir freuen uns auf Ihre Idee!</p>
+                <div class="space-y-4 mb-8">
+                    <div class="flex items-center gap-4"><i data-lucide="phone" class="text-red-500"></i> +49 151 68495881</div>
+                    <div class="flex items-center gap-4"><i data-lucide="map-pin" class="text-red-500"></i> Bamberg Innenstadt, 96047</div>
+                </div>
+                <div class="rounded-xl overflow-hidden h-64 grayscale invert opacity-50 border border-white/10">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20601.7610488686!2d10.87531!3d49.8988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a2247f0e92f2e5%3A0x41eda34d6190540!2sBamberg!5e0!3m2!1sde!2sde!4v1715421245678!5m2!1sde!2sde" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+            <form action="https://formsubmit.co/abdul91347@gmail.com" method="POST" class="space-y-6">
+                <!-- Form Configuration -->
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://yourwebsite.com/thank-you">
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block mb-2 text-sm">Ihr Name</label>
+                        <input type="text" name="name" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-red-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm">Ihre Email</label>
+                        <input type="email" name="email" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-red-500 outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm">Projektbeschreibung</label>
+                    <textarea name="message" rows="4" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:border-red-500 outline-none"></textarea>
+                </div>
+                <button type="submit" class="cta-button w-full py-4 flex items-center justify-center gap-2">
+                    Nachricht senden <i data-lucide="send"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Mega Footer -->
+    <footer class="bg-black py-20 border-t border-white/10">
+        <div class="container mx-auto px-4 grid md:grid-cols-4 gap-12">
+            <div class="col-span-1">
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center font-bold">B</div>
+                    <span class="text-xl font-bold tracking-tighter">WEBDesign Bamberg</span>
+                </div>
+                <p class="text-gray-500 text-sm">Ihre Full-Service Agentur für digitales Wachstum. Wir machen Bamberg im Web sichtbar.</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Links</h4>
+                <ul class="space-y-4 text-gray-500 text-sm">
+                    <li><a href="#services" class="hover:text-white">Services</a></li>
+                    <li><a href="#portfolio" class="hover:text-white">Portfolio</a></li>
+                    <li><a href="#pricing" class="hover:text-white">Preise</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Rechtliches</h4>
+                <ul class="space-y-4 text-gray-500 text-sm">
+                    <li><a href="#" class="hover:text-white">Impressum</a></li>
+                    <li><a href="#" class="hover:text-white">Datenschutz</a></li>
+                    <li><a href="#" class="hover:text-white">AGB</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Newsletter</h4>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Email Adresse" class="bg-zinc-900 border border-white/10 p-2 rounded-lg text-sm flex-1">
+                    <button class="bg-red-600 px-4 rounded-lg"><i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="container mx-auto px-4 mt-20 pt-8 border-t border-white/5 text-center text-gray-600 text-sm">
+            &copy; 2024 Webdesign Bamberg Premium Digital. Alle Rechte vorbehalten.
+        </div>
+    </footer>
+
+    <!-- STICKY WIDGETS -->
+    <div class="fixed bottom-6 left-6 z-50 flex flex-col gap-4">
+        <a href="https://wa.me/4915168495881" target="_blank" class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition floating-notif">
+            <i data-lucide="message-circle" class="text-white w-8 h-8"></i>
+        </a>
+        <a href="tel:+4915168495881" class="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition">
+            <i data-lucide="phone" class="text-white w-8 h-8"></i>
+        </a>
+    </div>
+
+    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 bg-white/10 backdrop-blur rounded-full flex items-center justify-center opacity-0 transition-opacity">
+        <i data-lucide="arrow-up" class="w-6 h-6"></i>
+    </button>
+
+    <!-- MODAL POPUP (Triggered by all .btn-popup-trigger) -->
+    <div id="lead-modal" class="fixed inset-0 bg-black/90 z-[200] hidden flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="glass-pro p-8 max-w-lg w-full relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x"></i></button>
+            <h3 class="text-2xl font-bold mb-6">Jetzt unverbindlich anfragen</h3>
+            <form action="https://formsubmit.co/abdul91347@gmail.com" method="POST" class="space-y-4">
+                <input type="text" name="name" placeholder="Name" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                <input type="email" name="email" placeholder="Email" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                <select name="subject" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                    <option value="webdesign">Webdesign Paket</option>
+                    <option value="seo">SEO Beratung</option>
+                    <option value="ecommerce">E-Commerce Shop</option>
+                </select>
+                <button type="submit" class="cta-button w-full py-4" id="submit-btn">Anfrage Absenden</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Exit Intent Popup (Simplified) -->
+    <div id="exit-popup" class="fixed inset-0 bg-black/80 z-[300] hidden items-center justify-center p-4">
+        <div class="bg-zinc-900 border-2 border-red-600 p-10 rounded-2xl max-w-md text-center">
+            <h2 class="text-3xl font-bold mb-4">Nicht so schnell! 🛑</h2>
+            <p class="mb-6 text-gray-400">Sichern Sie sich 10% Neukundenrabatt, bevor Sie gehen.</p>
+            <button class="cta-button btn-popup-trigger">Gutschein einlösen</button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray('.reveal-on-scroll').forEach(el => {
+            gsap.fromTo(el, { y: 60, opacity: 0 }, { 
+                y: 0, opacity: 1, duration: 1, ease: "power4.out",
+                scrollTrigger: { trigger: el, start: "top 85%" }
+            });
+        });
+
+        // Custom Cursor
+        const dot = document.getElementById('cursor-dot');
+        const outline = document.getElementById('cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            outline.animate({
+                left: e.clientX - 16 + 'px',
+                top: e.clientY - 16 + 'px'
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Project Estimator
+        const typeSelect = document.getElementById('est-type');
+        const addons = document.querySelectorAll('.est-addon');
+        const totalDisplay = document.getElementById('total-est');
+
+        function updateEst() {
+            let total = parseInt(typeSelect.value);
+            addons.forEach(box => { if(box.checked) total += parseInt(box.value); });
+            totalDisplay.innerText = total;
+        }
+        typeSelect.addEventListener('change', updateEst);
+        addons.forEach(box => box.addEventListener('change', updateEst));
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                content.classList.toggle('hidden');
+                btn.querySelector('i').classList.toggle('rotate-180');
+            });
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('lead-modal');
+        const closeBtn = document.getElementById('close-modal');
+        const triggers = document.querySelectorAll('.btn-popup-trigger');
+
+        triggers.forEach(btn => {
+            btn.addEventListener('click', () => modal.classList.remove('hidden'));
+        });
+        closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+
+        // Scroll Progress
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+            
+            const btt = document.getElementById('back-to-top');
+            if(winScroll > 500) btt.style.opacity = "1"; else btt.style.opacity = "0";
+        };
+
+        // Vanilla Tilt
+        VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+            max: 10,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.3,
+        });
+
+        // Confetti on success
+        if(window.location.search.includes('success=true')) {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#f60404', '#f9f106'] });
+        }
+    </script>
+
+    <div id="ai-agent-widget" class="fixed bottom-6 right-6 z-[9999] font-sans">
+        <button onclick="toggleAgent()" class="w-14 h-14 bg-blue-600 rounded-full shadow-2xl flex items-center justify-center text-white hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </button>
+        <div id="agent-window" class="hidden absolute bottom-20 right-0 w-[350px] bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col" style="height: 500px;">
+            <div class="p-4 bg-gray-50 border-b flex justify-between items-center">
+                <div><h3 class="font-bold text-sm" id="agent-display-name">Support</h3><p class="text-xs text-green-600">Online</p></div>
+            </div>
+            <div id="agent-messages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50"></div>
+            <div class="p-3 border-t bg-white flex gap-2">
+                <input id="agent-input" class="flex-1 bg-gray-100 border-none rounded px-3 py-2 text-sm" placeholder="Ask..." onkeypress="if(event.key==='Enter') sendAgentMessage()">
+                <button onclick="sendAgentMessage()" class="p-2 bg-blue-600 text-white rounded">Send</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let API_KEY = "";
+        let agentConfig = { name: "Agent", role: "Assistant", kb: "" };
+        function initAgent(key, config) { API_KEY = key; if(config) agentConfig = config; }
+        function toggleAgent() { document.getElementById('agent-window').classList.toggle('hidden'); }
+        async function sendAgentMessage() {
+            const input = document.getElementById('agent-input');
+            const msg = input.value;
+            if(!msg) return;
+            addBubble(msg, 'user');
+            input.value = '';
+            
+            // Local Knowledge Search (Simulated RAG)
+            const kbLower = agentConfig.kb.toLowerCase();
+            const msgLower = msg.toLowerCase();
+            let reply = "I can help with that. Please contact support for more details.";
+            
+            if(kbLower.includes(msgLower) || msgLower.length < 5) {
+                 reply = "Based on our site info: " + agentConfig.kb.substring(0, 100) + "...";
+            }
+            
+            // Mock AI Reply for demo within generated page
+            setTimeout(() => addBubble(reply, 'ai'), 1000);
+        }
+        function addBubble(text, sender) {
+            const d = document.createElement('div');
+            d.className = sender==='user'?'ml-auto bg-blue-600 text-white p-2 rounded-lg max-w-[80%] text-sm':'bg-white border p-2 rounded-lg max-w-[80%] text-sm';
+            d.innerText = text;
+            document.getElementById('agent-messages').appendChild(d);
+        }
+    </script></body>
+</html>
